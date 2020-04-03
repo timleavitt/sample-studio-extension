@@ -16,7 +16,7 @@ XData Menu
 <MenuItem Name="Open Notepad?" />
 <MenuItem Separator="1"/>
 <MenuItem Name="Open Class Method" />
-<MenuItem Name="Open CSP File" />
+<MenuItem Name="Open CSP" />
 <MenuItem Separator="1"/>
 <MenuItem Name="Alert" />
 <MenuItem Name="Get Yes/No/Cancel" />
@@ -24,7 +24,6 @@ XData Menu
 <MenuItem Separator="1"/>
 <MenuItem Name="Open New Document Template" />
 <MenuItem Name="Open Text Template" />
-<MenuItem Name="Open Add-In Template" />
 </Menu>
 
 <Menu Name="Sample Popup Menu" Type="1">
@@ -76,17 +75,16 @@ Method UserAction(Type As %Integer, Name As %String, InternalName As %String, Se
 		Set $ListBuild(Action,Target,Msg,Reload) = $Case(Name,
 			"Sample Top Menu,Save, then Show Output":$ListBuild(0,"","",0),
 			"Sample Top Menu,Open Class Method":$ListBuild(5,"Sample.Class.cls:SomeMethod","",0),
-			"Sample Top Menu,Open CSP":$ListBuild(5,"/csp/samples/showsource.csp","",0),
+			"Sample Top Menu,Open CSP":$ListBuild(5,"/csp/sourcecontrol/sample.csp","",0),
 			"Sample Top Menu,Open Management Portal":$ListBuild(2,"/csp/sys/UtilHome.csp","",0),
 			"Sample Top Menu,Open Google - Protocol Relative":$ListBuild(3,"http://www.google.com/","",0),
 			"Sample Top Menu,Open Google - No Protocol":$ListBuild(3,"www.google.com","",0),
-			"Sample Top Menu,Open Notepad?":$ListBuild(3,"shutdown.exe -r -t 30","",0),
+			"Sample Top Menu,Open Notepad?":$ListBuild(3,"notepad.exe","",0),
 			"Sample Top Menu,Alert":$ListBuild(6,InternalName,"",0),
 			"Sample Top Menu,Get Yes/No/Cancel":$ListBuild(1,"Give me an answer.","",0),
 			"Sample Top Menu,Prompt":$ListBuild(7,"This is a prompt.","This is the default text.",0),
-			"Sample Top Menu,Open New Document Template":$ListBuild(2,"/csp/sys/%ZEN.Template.ZENApplicationWizard.cls","",0),
+			"Sample Top Menu,Open New Document Template":$ListBuild(2,"/csp/sys/%25ZEN.Template.ZENApplicationWizard.cls","",0),
 			"Sample Top Menu,Open Text Template":$ListBuild(2,"/isc/studio/templates/SQLTemplate.csp","",0),
-			"Sample Top Menu,Open Add-In Template":$ListBuild(2,"/isc/studio/templates/EISRequestWizard.csp","",0),
 			"Sample Popup Menu,Show Output":$ListBuild(0,"","",0),
 			"Sample Popup Menu,Open All Classes in Package":$ListBuild(5,..GetClassesInPackage(InternalName),"",0),
 			"Sample Popup Menu,Quote Text":$ListBuild(4,""""_$Replace(SelectedText,"""","""""")_"""","",0))
