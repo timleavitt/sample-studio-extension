@@ -24,6 +24,7 @@ XData Menu
 <MenuItem Separator="1"/>
 <MenuItem Name="Open New Document Template" />
 <MenuItem Name="Open Text Template" />
+<MenuItem Name="Don't Show Me" />
 </Menu>
 
 <Menu Name="Sample Popup Menu" Type="1">
@@ -135,6 +136,7 @@ Method AfterUserAction(Type As %Integer, Name As %String, InternalName As %Strin
 		Write "Answer: ",Answer,!
 		Write "Msg: ",Msg,!
 	} Catch anyException {
+		Write "Type: ",Type,"; Name: ",Name,"; InternalName: ",InternalName,"; Answer: ",Answer,"; Msg: ",Msg,!
 		Set tSC = anyException.AsStatus()
 	}
 		
@@ -149,6 +151,7 @@ Method AfterUserAction(Type As %Integer, Name As %String, InternalName As %Strin
 Method OnMenuItem(MenuName As %String, InternalName As %String, SelectedText As %String, ByRef Enabled As %Boolean, ByRef DisplayName As %String) As %Status
 {
 	Set Enabled = $Case(MenuName,
+		"Sample Top Menu,Don't Show Me":-1,
 		"Sample Popup Menu,Open All Classes in Package":($Extract(InternalName,*-2,*)="PKG"),
 		"Sample Popup Menu,Quote Text":$Case(SelectedText,"":0,:1),
 		:1)
@@ -168,6 +171,25 @@ Method GetClassesInPackage(pPackageName As %String) As %String
 		Set tList = tList_$ListBuild(tRes.%Get("Name")_".cls")
 	}
 	Quit $ListToString(tList)
+}
+
+/// Return information about this entity.
+Method GetStatus(InternalName As %String, ByRef IsInSourceControl As %Boolean, ByRef Editable As %Boolean, ByRef IsCheckedOut As %Boolean, ByRef UserCheckedOut As %String) As %Status
+{
+	Set Editable=1,IsCheckedOut=0,UserCheckedOut="",IsInSourceControl=0
+	Set Editable = (InternalName '= "Sample.InSourceControl.CLS")
+	Set IsCheckedOut = 'Editable
+	Set IsInSourceControl = 'Editable
+	Quit $$$OK
+}
+
+/// Return true if this item should be marked as read only.
+/// This is called when Studio opens a document. It is set to indicate
+/// that the user checked the 'read only' checkbox in the open
+/// dialog in Studio.
+Method IsReadOnly(InternalName As %String) As %Boolean
+{
+	Quit (InternalName = "Sample.ReadOnly.CLS")
 }
 
 }
